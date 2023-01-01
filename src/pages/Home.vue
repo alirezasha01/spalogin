@@ -1,0 +1,252 @@
+<template>
+  <div class="row bg">
+    <div class="col-md-2"></div>
+    <div class="col-md-8">
+      <p class="mt-sm-3 mt-2">ثبت ادرس</p>
+      <div class="mb-5 padding-main">
+        <p class="address-color px-sm-4 px-3 py-sm-2 pt-3">لطفا مشخصات و ادرس خود را وارد کنید</p>
+        <div class="px-4 pb-4">
+          <form class="row g-3 needs-validation" @submit.prevent="validate" id="myForm">
+            <div class="col-md-4">
+              <label for="validationCustom01" class="form-label">نام</label>
+              <input v-model.lazy.trim="form.name" type="text" class="form-control" id="validationCustom01"
+                     placeholder="مثال: محمد">
+              <div class="form-text text-danger text-sm">
+                {{ form.nameError }}
+              </div>
+            </div>
+            <div class="col-md-4">
+              <label for="validationCustom02" class="form-label">نام خانوادگی</label>
+              <input v-model.lazy.trim="form.lastname" type="text" class="form-control" id="validationCustom02"
+                     placeholder="مثال: رضایی">
+              <div class="form-text text-danger text-sm">
+                {{ form.lastnameError }}
+              </div>
+            </div>
+            <div class="col-md-4">
+              <label for="validationCustomUsername" class="form-label">شماره تلفن همراه</label>
+              <div class="has-validation">
+                <input v-model.lazy.trim="form.phoneNum" type="text" class="form-control" id="validationCustomUsername"
+                       placeholder="مثال: 09121234567">
+                <div class="form-text text-danger text-sm">
+                  {{ form.phoneNumError }}
+                </div>
+              </div>
+            </div>
+            <div class="col-md-4">
+              <label for="validationCustom03" class="form-label">
+                                            <span>
+                                            شماره تلفن ثابت (اختیاری)
+                                            </span>
+                <span class="float-right text-sm">*با پیش شماره</span>
+              </label>
+              <input v-model.lazy.trim="form.phone" type="text" class="form-control" id="validationCustom03"
+                     placeholder="مثال: 0211234567">
+              <div class="form-text text-danger text-sm">
+              {{ form.phoneError }}
+              </div>
+            </div>
+            <div class="col-md-8">
+              <label for="validationCustom05" class="form-label">ادرس</label>
+              <input v-model.lazy.trim="form.address" type="text" class="form-control" id="validationCustom05">
+              <div class="form-text text-danger text-sm">
+                  {{ form.addressError }}
+              </div>
+            </div>
+            <div class="col-12">
+              <label class="sex">جنسیت</label>
+              <div class="form-check form-check-inline mx-4">
+                <input v-model.lazy.trim="form.gender" class="form-check-input" type="radio" name="inlineRadioOptions"
+                       id="inlineRadio1" value="خانم">
+                <label class="form-check-label" for="inlineRadio1">خانم</label>
+              </div>
+              <div class="form-check form-check-inline">
+                <input v-model.lazy.trim="form.gender" class="form-check-input" type="radio" name="inlineRadioOptions"
+                       id="inlineRadio2" value="اقا" checked="checked">
+                <label class="form-check-label" for="inlineRadio2">اقا</label>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-2"></div>
+  <Button/>
+  </div>
+
+</template>
+
+<script>
+import {reactive} from '@vue/reactivity'
+import Button from "../components/Button.vue"
+import router from '@/router'
+import axios from 'axios'
+
+export default {
+  components: {
+    Button
+  },
+  name: "home-router",
+  setup() {
+    const form = reactive(
+        {
+          name: "",
+          nameError:"",
+          lastname: "",
+          lastnameError: "",
+          phoneNum: "",
+          phoneNumError: "",
+          phone: "",
+          phoneError: "",
+          address: "",
+          addressError: "",
+          gender:""
+        }
+    )
+    const validate = () => {
+      if (form.name === ""){
+        form.nameError = "پر کردن این فیلد اجباری است";
+      }
+      else if(form.name.length<3)
+      {
+        form.nameError = "نام حداقل باید 3 کاراکتر باشد"
+      }
+      else
+      {
+        form.nameError = "";
+      }
+
+
+
+      if (form.lastname === ""){
+        form.lastnameError = "پر کردن این فیلد اجباری است";
+      }
+      else if(form.lastname.length<3)
+      {
+        form.lastnameError = "نام خانوادگی حداقل باید 3 کاراکتر باشد"
+      }
+      else
+      {
+        form.lastnameError = "";
+      }
+
+
+
+      if (form.phoneNum === ""){
+        form.phoneNumError = "پر کردن این فیلد اجباری است";
+      }
+      else if(form.phoneNum.length !== 11)
+      {
+        form.phoneNumError = "شماره وارد شده صحیح نمی باشد"
+      }
+      else
+      {
+        form.phoneNumError = "";
+      }
+
+
+
+
+      if (form.phone.length !== 11 && form.phone.length !== 0){
+        form.phoneError = "شماره وارد شده صحیح نمی باشد";
+      }
+      else
+      {
+        form.phoneError = "";
+      }
+
+
+
+      if (form.address === ""){
+        form.addressError = "پر کردن این فیلد اجباری است";
+      }
+      else if(form.address.length<10)
+      {
+        form.addressError = "آدرس حداقل باید 10 کاراکتر باشد"
+      }
+      else
+      {
+        form.addressError = "";
+      }
+
+
+
+    if(form.name !== "" &&  form.name.length>=3 && form.lastname !== "" && form.lastname.length>=3 && form.phoneNum !== "" && form.phoneNum.length === 11 && form.phone.length === 11 || form.phone.length === 0 && form.address !== "" && form.address.length>=10){
+      sendData()
+      router.push("/map")
+    }
+    }
+    const sendData = () => {
+      axios.post('https://jsonplaceholder.typicode.com/posts',{
+        // first_name:form.name,
+        // last_name:form.lastname,
+        // coordinate_mobile:form.phoneNum,
+        // coordinate_phone_number:form.phone,
+        // address:form.address,
+        // region:1,
+        // lat:"maplat",
+        // lng:"maplng",
+        // gender:form.gender,
+        title: form.name,
+        body: form.lastname,
+        userId: 1,
+      }).then(function (response) {
+            console.log(response)
+          })
+          .catch(function (err) {
+            console.log(err);
+          })
+    }
+    return {form , validate}
+  }
+
+}
+</script>
+
+<style scoped>
+.bg {
+  background-color: #f0f0f0;
+}
+
+.padding-main {
+  background: #FFFFFF;
+  border: 1px solid #EDF0F2;
+  box-shadow: 0 0 16px rgba(0, 0, 0, 0.08);
+  border-radius: 4px;
+}
+
+.address-color {
+  font-style: normal;
+  font-weight: 700;
+  font-size: 16px;
+  line-height: 32px;
+  color: #37474F;
+}
+
+form {
+  direction: rtl !important;;
+}
+
+.sex {
+  margin-left: 5rem
+}
+
+.text-sm {
+  color: #757575;
+  font-style: normal;
+  font-weight: 400;
+  font-size: 10px;
+  line-height: 16px;
+}
+
+label {
+  font-weight: 500;
+  font-size: 14px;
+  line-height: 22px;
+  color: #37474F;
+}
+
+.text-decoration {
+  text-decoration: none;
+}
+</style>
