@@ -26,7 +26,10 @@ export default {
     const users = ref([]);
     const loading = ref([])
     const getUser = () => {
-      axios.get("https://jsonplaceholder.typicode.com/users")
+      axios.get("https://stage.achareh.ir/api/karfarmas/address", {   headers: { 
+    'Authorization': 'Basic MDkxMjEwNzAxNTc6QWNoYXJlaEAxMjM0'
+  }
+ })
           .then(function (response) {
             users.value = response.data;
             loading.value = false;
