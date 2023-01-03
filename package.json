@@ -22,7 +22,9 @@
     "vue": "^3.2.45",
     "vue-leaflet": "^0.1.0",
     "vue-router": "^4.1.6",
-    "vue2-google-maps": "^0.10.7"
+    "vue2-google-maps": "^0.10.7",
+    "vue2-leaflet-geosearch": "^1.0.6",
+    "vue3-leaflet": "^1.0.43"
   },
   "devDependencies": {
     "@babel/core": "^7.12.16",
