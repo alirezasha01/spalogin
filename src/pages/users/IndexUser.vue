@@ -4,7 +4,7 @@
     <div class="row mt-4">
       <div class="col-sm-4 mb-4 display-none-sm">
         <span class="default-name display-block ">نام و نام خانوادگی</span>
-        <span class="db-name float-left display-block">{{ user.first_name}} {{ user.last_name }} </span>
+        <span class="db-name float-left display-block">{{ user.first_name }} {{ user.last_name }} </span>
       </div>
       <div class="col-sm-4 mb-4 display-none">
         <span class="default-name display-block">نام</span>

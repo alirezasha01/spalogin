@@ -26,17 +26,27 @@ export default {
     const users = ref([]);
     const loading = ref([])
     const getUser = () => {
-      axios.get("https://stage.achareh.ir/api/karfarmas/address", {   headers: { 
-    'Authorization': 'Basic MDkxMjEwNzAxNTc6QWNoYXJlaEAxMjM0'
-  }
- })
+      const FormData = require('form-data');
+      let data = new FormData();
+
+      let config = {
+        method: 'get',
+        url: 'https://stage.achareh.ir/api/karfarmas/address?Authorization=Basic MDkxMjEwNzAxNTc6QWNoYXJlaEAxMjM0',
+        headers: {
+          'Authorization': 'Basic MDkxMjEwNzAxNTc6QWNoYXJlaEAxMjM0',
+        },
+        data: data
+      };
+
+      axios(config)
           .then(function (response) {
             users.value = response.data;
             loading.value = false;
           })
           .catch(function (err) {
             console.log(err);
-          })
+          });
+
     };
     getUser();
     return {users, loading};
