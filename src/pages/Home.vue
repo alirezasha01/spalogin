@@ -34,11 +34,9 @@
               </div>
             </div>
             <div class="col-md-4">
-              <label for="validationCustom03" class="form-label">
-                                            <span>
-                                            شماره تلفن ثابت (اختیاری)
-                                            </span>
-                <span class="float-right text-sm">*با پیش شماره</span>
+              <label for="validationCustom03" class="form-label d-flex">
+                <span>شماره تلفن ثابت (اختیاری)</span>
+                <span class="text-sm mr-auto">*با پیش شماره</span>
               </label>
               <input v-model.lazy.trim="form.phone" type="text" class="form-control" id="validationCustom03"
                      placeholder="مثال: 0211234567">
@@ -71,21 +69,20 @@
       </div>
     </div>
     <div class="col-md-2"></div>
-    <Button/>
+    <div class="btndiv">
+      <button form="myForm" type="submit" class="btn btn-info px-5 mb-5 btnsub">ثبت و ادامه</button>
+    </div>
   </div>
 
 </template>
 
 <script>
 import {reactive} from '@vue/reactivity'
-import Button from "../components/Button.vue"
 import router from '@/router'
 import axios from 'axios'
+import FormData from 'form-data'
 
 export default {
-  components: {
-    Button
-  },
   name: "home-router",
   setup() {
     const form = reactive(
@@ -151,7 +148,6 @@ export default {
       }
     }
     const sendData = () => {
-      const FormData = require('form-data');
       let data = new FormData();
       data.append('first_name', form.name);
       data.append('last_name', form.lastname);
@@ -232,5 +228,22 @@ label {
 
 .text-decoration {
   text-decoration: none;
+}
+.mr-auto{
+  margin-right: auto;
+}
+.btndiv {
+  display: flex;
+  background: #FFFFFF;
+  box-shadow: 0px -1px 8px rgba(0, 0, 0, 0.1);
+}
+.btnsub {
+  color: white;
+  text-align: center;
+  margin: auto;
+  margin-top: 19px;
+}
+.btnsub:hover {
+  color: #FFFFFF;
 }
 </style>

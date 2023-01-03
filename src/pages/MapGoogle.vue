@@ -16,20 +16,18 @@
     </div>
     <div class="col-md-2"></div>
     <router-link to="/success" class="text-decoration">
-      <Button/>
+      <div class="btndiv">
+        <button type="submit" class="btn btn-info px-5 mb-5 btnsub">ثبت و ادامه</button>
+      </div>
     </router-link>
   </div>
 </template>
 
 <script>
-import Button from "../components/Button.vue"
 import "leaflet/dist/leaflet.css";
 import L from "leaflet";
 
 export default {
-  components: {
-    Button
-  },
   name: "GoogleMap",
   data() {
     return {
@@ -56,10 +54,9 @@ export default {
         iconSize: [50, 50],
         shadowSize: [200, 200],
       }),
-          this.marker = new L.Marker(e.latlng, {icon: this.iconMarker, draggable: true});
+          this.marker = new L.Marker(e.latlng, {icon: this.iconMarker, draggable: false});
       map.addLayer(this.marker);
       this.marker.bindPopup("مکان شما").openPopup();
-      console.log(this.lat, this.lng)
     });
 
   },
@@ -110,5 +107,19 @@ label {
 #map {
   width: 100%;
   height: 300px;
+}
+.btndiv {
+  display: flex;
+  background: #FFFFFF;
+  box-shadow: 0px -1px 8px rgba(0, 0, 0, 0.1);
+}
+.btnsub {
+  color: white;
+  text-align: center;
+  margin: auto;
+  margin-top: 19px;
+}
+.btnsub:hover {
+  color: #FFFFFF;
 }
 </style>
