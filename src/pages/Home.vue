@@ -171,7 +171,7 @@ export default {
 
 
 
-    if(form.name !== "" &&  form.name.length>=3 && form.lastname !== "" && form.lastname.length>=3 && form.phoneNum !== "" && form.phoneNum.length === 11 && form.phone.length === 11 || form.phone.length === 0 && form.address !== "" && form.address.length>=10){
+    if(form.name !== "" &&  form.name.length>=3 && form.lastname !== "" && form.lastname.length>=3 && form.phoneNum !== "" && form.phoneNum.length === 11 &&( form.phone.length === 11 || form.phone.length === 0 )&& form.address !== "" && form.address.length>=10){
       sendData()
       router.push("/map")
     }
