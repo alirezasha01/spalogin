@@ -63,6 +63,7 @@ export default {
         };
         axios(config)
             .then((response) => {
+              // دیتا ها درست ارسال می شوند.
               console.log(JSON.stringify(response.data));
               form.name = '';
               form.lastname = '';
