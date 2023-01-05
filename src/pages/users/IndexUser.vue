@@ -29,7 +29,7 @@
       <hr class="display-none-sm"/>
       <div class="col-sm-4 mb-4">
         <p class="default-name">آدرس</p>
-        <p class="db-name"> {{ user.region.name }} </p>
+        <p class="db-name"> {{ user.address }} </p>
       </div>
     </div>
   </div>

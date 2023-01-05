@@ -64,6 +64,12 @@ export default {
         axios(config)
             .then((response) => {
               console.log(JSON.stringify(response.data));
+              form.name = '';
+              form.lastname = '';
+              form.phoneNum = '';
+              form.phone = '';
+              form.address = '';
+              form.gender = '';
             })
             .catch(() => {
 

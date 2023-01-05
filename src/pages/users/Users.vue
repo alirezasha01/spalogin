@@ -42,6 +42,7 @@ export default {
           .then(function (response) {
             users.value = response.data;
             loading.value = false;
+            console.log(response.data)
           })
           .catch(function (err) {
             console.log(err);
