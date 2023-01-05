@@ -15,55 +15,88 @@
       </div>
     </div>
     <div class="col-md-2"></div>
-    <router-link to="/success" class="text-decoration">
-      <div class="btndiv">
-        <button type="submit" class="btn btn-info px-5 mb-5 btnsub">ثبت و ادامه</button>
-      </div>
-    </router-link>
+    <div class="btndiv">
+      <button @click="sendData" type="submit" class="btn btn-info px-5 mb-5 btnsub">ثبت و ادامه</button>
+    </div>
   </div>
 </template>
 
 <script>
 import "leaflet/dist/leaflet.css";
 import L from "leaflet";
+import router from "@/router";
+import {useFormStore} from "@/store/task";
+import FormData from "form-data";
+import axios from "axios";
+import {ref} from "@vue/reactivity";
+import {onBeforeUnmount, onMounted} from "vue";
 
 export default {
   name: "GoogleMap",
-  data() {
-    return {
-      map: null,
-      point: {
-        lat: null,
-        lng: null
-      },
-      marker: null,
-      iconMarker: null
-    };
-  },
-  mounted() {
-    let map = L.map('map').setView([35.7036534, 51.3495146], 15);
-    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png').addTo(map);
-    map.on('click', function (e) {
-      this.lat = e.latlng.lat;
-      this.lng = e.latlng.lng;
-      if (this.marker !== undefined) {
-        map.removeLayer(this.marker);
-      }
-      this.iconMarker = L.icon({
-        iconUrl: "https://img.icons8.com/ios-filled/50/null/marker.png",
-        iconSize: [50, 50],
-        shadowSize: [200, 200],
-      }),
-          this.marker = new L.Marker(e.latlng, {icon: this.iconMarker, draggable: false});
-      map.addLayer(this.marker);
-      this.marker.bindPopup("مکان شما").openPopup();
-    });
+  setup() {
+    let lng = ref(null);
+    let lat = ref(null);
+    let map = null;
+    let marker = undefined;
+    let iconMarker = null;
+    const form = useFormStore();
+    const sendData = () => {
+      if (form.name !== "" && form.name.length >= 3 && form.lastname !== "" && form.lastname.length >= 3 && form.phoneNum !== "" && form.phoneNum.length === 11 && (form.phone.length === 11 || form.phone.length === 0) && form.address !== "" && form.address.length >= 10 && lat.value !== null && lng.value !== null) {
+        let data = new FormData();
+        data.append('first_name', form.name);
+        data.append('last_name', form.lastname);
+        data.append('coordinate_mobile', form.phoneNum);
+        data.append('coordinate_phone_number', form.phone);
+        data.append('address', form.address);
+        data.append('region', '1');
+        data.append('lat', lat.value);
+        data.append('lng', lng.value);
+        data.append('gender', form.gender);
 
-  },
-  beforeUnmount() {
-    if (this.map) {
-      this.map.remove();
+        let config = {
+          method: 'post',
+          url: 'https://stage.achareh.ir/api/karfarmas/address',
+          headers: {
+            'Authorization': 'Basic MDkxMjEwNzAxNTc6QWNoYXJlaEAxMjM0',
+          },
+          data: data
+        };
+        axios(config)
+            .then((response) => {
+              console.log(JSON.stringify(response.data));
+            })
+            .catch(() => {
+
+            });
+        router.push("/success")
+      }
+
     }
+    onMounted(() => {
+      map = L.map('map').setView([35.7036534, 51.3495146], 15);
+      L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png').addTo(map);
+      map.on('click', function (e) {
+        lat.value = e.latlng.lat;
+        lng.value = e.latlng.lng;
+        if (marker !== undefined) {
+          map.removeLayer(marker);
+        }
+        iconMarker = L.icon({
+          iconUrl: "https://img.icons8.com/ios-filled/50/null/marker.png",
+          iconSize: [50, 50],
+          shadowSize: [200, 200],
+        }),
+            marker = new L.Marker(e.latlng, {icon: iconMarker, draggable: false});
+        map.addLayer(marker);
+        marker.bindPopup("مکان شما").openPopup();
+      });
+    });
+    onBeforeUnmount(() => {
+      if (map) {
+        map.remove();
+      }
+    });
+    return {sendData, lng, lat}
   }
 }
 </script>
@@ -108,17 +141,20 @@ label {
   width: 100%;
   height: 300px;
 }
+
 .btndiv {
   display: flex;
   background: #FFFFFF;
   box-shadow: 0px -1px 8px rgba(0, 0, 0, 0.1);
 }
+
 .btnsub {
   color: white;
   text-align: center;
   margin: auto;
   margin-top: 19px;
 }
+
 .btnsub:hover {
   color: #FFFFFF;
 }

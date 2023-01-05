@@ -26,8 +26,9 @@
             <div class="col-md-4">
               <label for="validationCustomUsername" class="form-label">شماره تلفن همراه</label>
               <div class="has-validation">
-                <input v-model.lazy.trim="form.phoneNum" type="text" class="form-control" id="validationCustomUsername"
-                       placeholder="مثال: 09121234567">
+                <input v-model.lazy.trim="form.phoneNum" type="tel" class="form-control" id="validationCustomUsername"
+                       placeholder="مثال: 09121234567"
+                       pattern="[0-9]{11}">
                 <div class="form-text text-danger text-sm">
                   {{ form.phoneNumError }}
                 </div>
@@ -38,8 +39,9 @@
                 <span>شماره تلفن ثابت (اختیاری)</span>
                 <span class="text-sm mr-auto">*با پیش شماره</span>
               </label>
-              <input v-model.lazy.trim="form.phone" type="text" class="form-control" id="validationCustom03"
-                     placeholder="مثال: 0211234567">
+              <input v-model.lazy.trim="form.phone" type="tel" class="form-control" id="validationCustom03"
+                     placeholder="مثال: 0211234567"
+                     pattern="[0-9]{11}">
               <div class="form-text text-danger text-sm">
                 {{ form.phoneError }}
               </div>
@@ -77,29 +79,13 @@
 </template>
 
 <script>
-import {reactive} from '@vue/reactivity'
 import router from '@/router'
-import axios from 'axios'
-import FormData from 'form-data'
+import {useFormStore} from "@/store/task";
 
 export default {
   name: "home-router",
   setup() {
-    const form = reactive(
-        {
-          name: "",
-          nameError: "",
-          lastname: "",
-          lastnameError: "",
-          phoneNum: "",
-          phoneNumError: "",
-          phone: "",
-          phoneError: "",
-          address: "",
-          addressError: "",
-          gender: 'اقا'
-        }
-    )
+    const form = useFormStore()
     const validate = () => {
       if (form.name === "") {
         form.nameError = "پر کردن این فیلد اجباری است";
@@ -143,39 +129,10 @@ export default {
         form.addressError = "";
       }
       if (form.name !== "" && form.name.length >= 3 && form.lastname !== "" && form.lastname.length >= 3 && form.phoneNum !== "" && form.phoneNum.length === 11 && (form.phone.length === 11 || form.phone.length === 0) && form.address !== "" && form.address.length >= 10) {
-        sendData()
         router.push("/map")
       }
     }
-    const sendData = () => {
-      let data = new FormData();
-      data.append('first_name', form.name);
-      data.append('last_name', form.lastname);
-      data.append('coordinate_mobile', form.phoneNum);
-      data.append('coordinate_phone_number', form.phone);
-      data.append('address', form.address);
-      data.append('region', '1');
-      data.append('lat', '35.7717503');
-      data.append('lng', '51.3365315');
-      data.append('gender', form.gender);
 
-      let config = {
-        method: 'post',
-        url: 'https://stage.achareh.ir/api/karfarmas/address',
-        headers: {
-          'Authorization': 'Basic MDkxMjEwNzAxNTc6QWNoYXJlaEAxMjM0',
-        },
-        data: data
-      };
-      axios(config)
-          .then((response) => {
-            console.log(JSON.stringify(response.data));
-          })
-          .catch((error) => {
-            console.log(error);
-          });
-
-    }
 
     return {form, validate}
   }
@@ -229,20 +186,24 @@ label {
 .text-decoration {
   text-decoration: none;
 }
-.mr-auto{
+
+.mr-auto {
   margin-right: auto;
 }
+
 .btndiv {
   display: flex;
   background: #FFFFFF;
   box-shadow: 0px -1px 8px rgba(0, 0, 0, 0.1);
 }
+
 .btnsub {
   color: white;
   text-align: center;
   margin: auto;
   margin-top: 19px;
 }
+
 .btnsub:hover {
   color: #FFFFFF;
 }
