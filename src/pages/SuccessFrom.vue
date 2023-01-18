@@ -18,10 +18,7 @@
   </div>
 </template>
 
-<script>
-export default {
-  name: "success-login"
-}
+<script setup>
 </script>
 
 <style scoped>

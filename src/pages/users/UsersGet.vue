@@ -14,44 +14,37 @@
   </div>
 </template>
 
-<script>
+<script setup>
 import axios from "axios";
 import IndexUser from "./IndexUser.vue"
 import {ref} from '@vue/reactivity';
 
-export default {
-  name: "users-get",
-  components: {IndexUser},
-  setup() {
-    const users = ref([]);
-    const loading = ref([])
-    const getUser = () => {
-      const FormData = require('form-data');
-      let data = new FormData();
+const users = ref([]);
+const loading = ref([])
+const getUser = () => {
+  const FormData = require('form-data');
+  let data = new FormData();
 
-      let config = {
-        method: 'get',
-        url: 'https://stage.achareh.ir/api/karfarmas/address?Authorization=Basic MDkxMjEwNzAxNTc6QWNoYXJlaEAxMjM0',
-        headers: {
-          'Authorization': 'Basic MDkxMjEwNzAxNTc6QWNoYXJlaEAxMjM0',
-        },
-        data: data
-      };
+  let config = {
+    method: 'get',
+    url: 'https://stage.achareh.ir/api/karfarmas/address?Authorization=Basic MDkxMjEwNzAxNTc6QWNoYXJlaEAxMjM0',
+    headers: {
+      'Authorization': 'Basic MDkxMjEwNzAxNTc6QWNoYXJlaEAxMjM0',
+    },
+    data: data
+  };
 
-      axios(config)
-          .then(function (response) {
-            users.value = response.data;
-            loading.value = false;
-          })
-          .catch(function (err) {
-            console.log(err);
-          });
+  axios(config)
+      .then(function (response) {
+        users.value = response.data;
+        loading.value = false;
+      })
+      .catch(function (err) {
+        console.log(err);
+      });
 
-    };
-    getUser();
-    return {users, loading};
-  },
 };
+getUser();
 </script>
 
 <style>

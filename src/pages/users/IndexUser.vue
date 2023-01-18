@@ -36,12 +36,11 @@
 
 </template>
 
-<script>
-export default {
-  props: {
-    user: Object
-  }
-}
+<script setup>
+import {defineProps} from "vue";
+defineProps({
+  user: Object
+})
 </script>
 
 <style>

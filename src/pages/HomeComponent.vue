@@ -75,68 +75,54 @@
       <button form="myForm" type="submit" class="btn btn-info px-5 mb-5 btnsub">ثبت و ادامه</button>
     </div>
   </div>
-
 </template>
 
-<script>
+<script setup>
 import router from '@/router'
 import {useFormStore} from "@/store/task";
 
-export default {
-  name: "home-router",
-  setup() {
-    const form = useFormStore()
-    const validate = () => {
-      if (form.name === "") {
-        form.nameError = "پر کردن این فیلد اجباری است";
-      } else if (form.name.length < 3) {
-        form.nameError = "نام حداقل باید 3 کاراکتر باشد"
-      } else {
-        form.nameError = "";
-      }
-
-
-      if (form.lastname === "") {
-        form.lastnameError = "پر کردن این فیلد اجباری است";
-      } else if (form.lastname.length < 3) {
-        form.lastnameError = "نام خانوادگی حداقل باید 3 کاراکتر باشد"
-      } else {
-        form.lastnameError = "";
-      }
-
-
-      if (form.phoneNum === "") {
-        form.phoneNumError = "پر کردن این فیلد اجباری است";
-      } else if (form.phoneNum.length !== 11) {
-        form.phoneNumError = "شماره وارد شده صحیح نمی باشد"
-      } else {
-        form.phoneNumError = "";
-      }
-
-
-      if (form.phone.length !== 11 && form.phone.length !== 0) {
-        form.phoneError = "شماره وارد شده صحیح نمی باشد";
-      } else {
-        form.phoneError = "";
-      }
-
-
-      if (form.address === "") {
-        form.addressError = "پر کردن این فیلد اجباری است";
-      } else if (form.address.length < 10) {
-        form.addressError = "آدرس حداقل باید 10 کاراکتر باشد"
-      } else {
-        form.addressError = "";
-      }
-      if (form.name !== "" && form.name.length >= 3 && form.lastname !== "" && form.lastname.length >= 3 && form.phoneNum !== "" && form.phoneNum.length === 11 && (form.phone.length === 11 || form.phone.length === 0) && form.address !== "" && form.address.length >= 10) {
-        router.push("/map")
-      }
-    }
-
-
-    return {form, validate}
+const form = useFormStore()
+const validate = () => {
+  if (form.name === "") {
+    form.nameError = "پر کردن این فیلد اجباری است";
+  } else if (form.name.length < 3) {
+    form.nameError = "نام حداقل باید 3 کاراکتر باشد"
+  } else {
+    form.nameError = "";
+  }
+  if (form.lastname === "") {
+    form.lastnameError = "پر کردن این فیلد اجباری است";
+  } else if (form.lastname.length < 3) {
+    form.lastnameError = "نام خانوادگی حداقل باید 3 کاراکتر باشد"
+  } else {
+    form.lastnameError = "";
+  }
+  if (form.phoneNum === "") {
+    form.phoneNumError = "پر کردن این فیلد اجباری است";
+  } else if (form.phoneNum.length !== 11) {
+    form.phoneNumError = "شماره وارد شده صحیح نمی باشد"
+  } else {
+    form.phoneNumError = "";
   }
 
+
+  if (form.phone.length !== 11 && form.phone.length !== 0) {
+    form.phoneError = "شماره وارد شده صحیح نمی باشد";
+  } else {
+    form.phoneError = "";
+  }
+
+
+  if (form.address === "") {
+    form.addressError = "پر کردن این فیلد اجباری است";
+  } else if (form.address.length < 10) {
+    form.addressError = "آدرس حداقل باید 10 کاراکتر باشد"
+  } else {
+    form.addressError = "";
+  }
+  if (form.name !== "" && form.name.length >= 3 && form.lastname !== "" && form.lastname.length >= 3 && form.phoneNum !== "" && form.phoneNum.length === 11 && (form.phone.length === 11 || form.phone.length === 0) && form.address !== "" && form.address.length >= 10) {
+    router.push("/map")
+  }
 }
 </script>
 
